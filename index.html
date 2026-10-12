@@ -2,112 +2,234 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>双色球选号器（三合一完整版）</title>
     <style>
         * {
             box-sizing: border-box;
-            font-family: system-ui, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
         }
+
         body {
-            max-width: 950px;
-            margin: 30px auto;
+            max-width: 1000px;
+            margin: 40px auto;
             padding: 0 20px;
             background-color: #f5f7fa;
+            text-align: center;
         }
+
         .card {
             background: #fff;
-            padding:24px;
-            border-radius:12px;
-            box-shadow: 0 2px 12px #00000015;
-            margin-bottom:20px;
+            padding: 40px 32px;
+            border-radius: 20px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.14);
+            margin-bottom: 28px;
+            text-align: center;
         }
+
         h2 {
-            margin-top:0;
+            margin-top: 0;
+            margin-bottom: 32px;
+            font-size: 30px;
+            letter-spacing: 3px;
         }
-        .mode-box{
-            margin-bottom:16px;
+
+        /* mode-box 左对齐 */
+        .mode-box {
+            margin-bottom: 36px;
+            font-size: 20px;
+            line-height: 2.2;
+            letter-spacing: 2px;
+            text-align: left;
+            max-width: 720px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .ball-group{
-            margin:18px 0;
+
+        .mode-box label {
+            display: block;
+            margin: 14px 0;
         }
-        .ball-item{
-            display:inline-block;
-            width:36px;
-            height:36px;
-            line-height:36px;
-            text-align:center;
-            border-radius:50%;
-            margin:4px;
-            cursor:pointer;
-            border:1px solid #ddd;
+
+        .ball-group {
+            margin: 36px 0;
         }
-        .red-ball{
-            background-color:#f44336;
-            color:#fff;
+
+        .ball-group p {
+            font-size: 20px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
         }
-        .blue-ball{
-            background-color:#2196F3;
-            color:#fff;
+
+        .ball-item {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50%;
+            margin: 8px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            letter-spacing: 1px;
         }
-        .exclude-red{
-            background:#ffcccc;
-            color:#990000;
+
+        .red-ball {
+            background-color: #f44336;
+            color: #fff;
         }
-        .exclude-blue{
-            background:#cce5ff;
-            color:#004499;
+
+        .blue-ball {
+            background-color: #2196F3;
+            color: #fff;
         }
-        .result-line{
-            font-size:22px;
-            margin:16px 0;
+
+        .exclude-red {
+            background: #ffcccc;
+            color: #990000;
         }
-        .extra-info{
-            margin-top:10px;
-            font-size:14px;
-            color:#444;
+
+        .exclude-blue {
+            background: #cce5ff;
+            color: #004499;
         }
-        button{
-            padding:10px 18px;
-            font-size:15px;
-            border:none;
-            border-radius:6px;
-            cursor:pointer;
-            margin-right:10px;
-            margin-bottom:8px;
+
+        .result-line {
+            font-size: 30px;
+            margin: 32px 0;
+            font-weight: 600;
+            letter-spacing: 3px;
         }
-        .btn-primary{
-            background:#222;
-            color:white;
+
+        /* 抽走信息区左对齐，并加大间距 */
+        .extra-info {
+            margin-top: 28px;
+            margin-bottom: 32px;
+            padding: 20px 24px;
+            font-size: 19px;
+            line-height: 2;
+            color: #444;
+            letter-spacing: 2px;
+            text-align: left;
+            max-width: 720px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .btn-reset{
-            background:#888;
-            color:white;
+
+        .extra-info div {
+            margin-bottom: 18px;
         }
-        .btn-special{
-            background:#6b21a8;
-            color:#fff;
+
+        .extra-info div:last-child {
+            margin-bottom: 0;
         }
-        .tip{
-            color:#666;
-            font-size:14px;
+
+        button {
+            padding: 18px 24px;
+            font-size: 19px;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            margin: 10px 8px;
+            letter-spacing: 3px;
+        }
+
+        .btn-primary {
+            background: #222;
+            color: white;
+        }
+
+        .btn-reset {
+            background: #888;
+            color: white;
+        }
+
+        .btn-special {
+            background: #6b21a8;
+            color: #fff;
+        }
+
+        .tip {
+            color: #666;
+            font-size: 17px;
+            line-height: 1.9;
+            margin-top: 32px;
+            letter-spacing: 1px;
+        }
+
+        /* 手机适配 */
+        @media (max-width: 768px) {
+            body {
+                margin: 20px auto;
+                padding: 0 14px;
+            }
+
+            .card {
+                padding: 28px 20px;
+            }
+
+            h2 {
+                font-size: 24px;
+                margin-bottom: 24px;
+            }
+
+            .mode-box {
+                font-size: 18px;
+                margin-bottom: 28px;
+            }
+
+            .mode-box label {
+                margin: 12px 0;
+            }
+
+            .ball-item {
+                width: 44px;
+                height: 44px;
+                font-size: 16px;
+                margin: 6px;
+            }
+
+            .result-line {
+                font-size: 24px;
+                margin: 24px 0;
+            }
+
+            .extra-info {
+                font-size: 17px;
+                margin-top: 20px;
+                margin-bottom: 24px;
+                padding: 16px 18px;
+            }
+
+            .extra-info div {
+                margin-bottom: 20px;
+            }
+
+            button {
+                width: 100%;
+                margin: 12px 0;
+            }
         }
     </style>
 </head>
 <body>
     <div class="card">
         <h2>双色球选号器｜三合一</h2>
+
         <div class="mode-box">
             <label>
-                <input type="radio" name="mode" value="random" checked onchange="switchMode()"> 普通随机模式
+                <input type="radio" name="mode" value="random" checked onchange="switchMode()">
+                普通随机模式
             </label>
-            &nbsp;&nbsp;
             <label>
-                <input type="radio" name="mode" value="exclude" onchange="switchMode()"> 反向排除模式（勾选不要的号码）
+                <input type="radio" name="mode" value="exclude" onchange="switchMode()">
+                反向排除模式（勾选不要的号码）
             </label>
-            &nbsp;&nbsp;
             <label>
-                <input type="radio" name="mode" value="remain" onchange="switchMode()"> 抽取27红15蓝，取剩余一注
+                <input type="radio" name="mode" value="remain" onchange="switchMode()">
+                抽取27红15蓝，取剩余一注
             </label>
         </div>
 
@@ -126,6 +248,7 @@
             选号结果：
             <span id="resultShow"></span>
         </div>
+
         <div class="extra-info" id="extraInfo"></div>
 
         <div>
@@ -133,183 +256,208 @@
             <button class="btn-special" onclick="runRemainMode()">【快速】抽取27红15蓝取剩余注</button>
             <button class="btn-reset" onclick="resetAll()">重置</button>
         </div>
+
         <p class="tip">提示：彩票开奖完全随机，本工具仅号码模拟，无法提高中奖概率，理性购彩。</p>
     </div>
 
-
 <script>
-// 原始核心函数
-function generateDoubleBall(redBallNum=6,blueBallNum=1,excludeRed=[],excludeBlue=[]){
-    // 可用红球 = 1~33 过滤掉排除号码
-    let availableRed = []
-    for(let i=1;i<=33;i++){
-        if(!excludeRed.includes(i)) availableRed.push(i)
+function generateDoubleBall(redBallNum = 6, blueBallNum = 1, excludeRed = [], excludeBlue = []) {
+    let availableRed = [];
+    for (let i = 1; i <= 33; i++) {
+        if (!excludeRed.includes(i)) availableRed.push(i);
     }
-    if(availableRed.length < redBallNum) throw new Error("剩余可选红球数量不足，请减少排除号码！")
+    if (availableRed.length < redBallNum) {
+        throw new Error("剩余可选红球数量不足，请减少排除号码！");
+    }
 
-    let redBalls = []
-    while(redBalls.length < redBallNum){
-        let randIdx = Math.floor(Math.random() * availableRed.length)
-        let num = availableRed[randIdx]
-        if(redBalls.indexOf(num) === -1){
-            redBalls.push(num)
+    let redBalls = [];
+    while (redBalls.length < redBallNum) {
+        let randIdx = Math.floor(Math.random() * availableRed.length);
+        let num = availableRed[randIdx];
+        if (redBalls.indexOf(num) === -1) {
+            redBalls.push(num);
         }
     }
 
-    // 可用蓝球 =1~16过滤排除号码
-    let availableBlue = []
-    for(let i=1;i<=16;i++){
-        if(!excludeBlue.includes(i)) availableBlue.push(i)
+    let availableBlue = [];
+    for (let i = 1; i <= 16; i++) {
+        if (!excludeBlue.includes(i)) availableBlue.push(i);
     }
-    if(availableBlue.length < blueBallNum) throw new Error("剩余可选蓝球数量不足，请减少排除号码！")
+    if (availableBlue.length < blueBallNum) {
+        throw new Error("剩余可选蓝球数量不足，请减少排除号码！");
+    }
 
-    let blueBalls = []
-    while(blueBalls.length < blueBallNum){
-        let randIdx = Math.floor(Math.random() * availableBlue.length)
-        let num = availableBlue[randIdx]
-        if(blueBalls.indexOf(num) === -1){
-            blueBalls.push(num)
+    let blueBalls = [];
+    while (blueBalls.length < blueBallNum) {
+        let randIdx = Math.floor(Math.random() * availableBlue.length);
+        let num = availableBlue[randIdx];
+        if (blueBalls.indexOf(num) === -1) {
+            blueBalls.push(num);
         }
     }
 
-    redBalls.sort((a,b)=>a-b)
-    return [redBalls, blueBalls]
+    redBalls.sort(function (a, b) {
+        return a - b;
+    });
+
+    return [redBalls, blueBalls];
 }
 
-// 存储被排除的号码
-let selectedExcludeRed = []
-let selectedExcludeBlue = []
+let selectedExcludeRed = [];
+let selectedExcludeBlue = [];
 
-// 切换模式
-function switchMode(){
-    const mode = document.querySelector('input[name="mode"]:checked').value
-    const panel = document.getElementById('excludePanel')
+function switchMode() {
+    const mode = document.querySelector('input[name="mode"]:checked').value;
+    const panel = document.getElementById('excludePanel');
     document.getElementById('extraInfo').innerHTML = '';
-    if(mode === 'exclude'){
-        panel.style.display = 'block'
-    }else{
-        panel.style.display = 'none'
+
+    if (mode === 'exclude') {
+        panel.style.display = 'block';
+    } else {
+        panel.style.display = 'none';
     }
 }
 
-// 渲染排除选择面板
-function renderExcludeBoard(){
-    const redWrap = document.getElementById('redExcludeWrap')
-    const blueWrap = document.getElementById('blueExcludeWrap')
-    redWrap.innerHTML = ''
-    blueWrap.innerHTML = ''
+function renderExcludeBoard() {
+    const redWrap = document.getElementById('redExcludeWrap');
+    const blueWrap = document.getElementById('blueExcludeWrap');
 
-    // 红球1-33
-    for(let i=1;i<=33;i++){
-        const span = document.createElement('span')
-        span.className = 'ball-item red-ball'
-        span.innerText = i
-        span.dataset.val = i
-        if(selectedExcludeRed.includes(i)){
-            span.classList.remove('red-ball')
-            span.classList.add('exclude-red')
+    redWrap.innerHTML = '';
+    blueWrap.innerHTML = '';
+
+    for (let i = 1; i <= 33; i++) {
+        const span = document.createElement('span');
+        span.className = 'ball-item red-ball';
+        span.innerText = i;
+        span.dataset.val = i;
+
+        if (selectedExcludeRed.indexOf(i) > -1) {
+            span.classList.remove('red-ball');
+            span.classList.add('exclude-red');
         }
-        span.onclick = ()=>{
-            const val = Number(span.dataset.val)
-            const idx = selectedExcludeRed.indexOf(val)
-            if(idx > -1){
-                selectedExcludeRed.splice(idx,1)
-            }else{
-                selectedExcludeRed.push(val)
+
+        span.onclick = function () {
+            const val = Number(span.dataset.val);
+            const idx = selectedExcludeRed.indexOf(val);
+
+            if (idx > -1) {
+                selectedExcludeRed.splice(idx, 1);
+            } else {
+                selectedExcludeRed.push(val);
             }
-            renderExcludeBoard()
-        }
-        redWrap.appendChild(span)
+
+            renderExcludeBoard();
+        };
+
+        redWrap.appendChild(span);
     }
 
-    // 蓝球1-16
-    for(let i=1;i<=16;i++){
-        const span = document.createElement('span')
-        span.className = 'ball-item blue-ball'
-        span.innerText = i
-        span.dataset.val = i
-        if(selectedExcludeBlue.includes(i)){
-            span.classList.remove('blue-ball')
-            span.classList.add('exclude-blue')
+    for (let i = 1; i <= 16; i++) {
+        const span = document.createElement('span');
+        span.className = 'ball-item blue-ball';
+        span.innerText = i;
+        span.dataset.val = i;
+
+        if (selectedExcludeBlue.indexOf(i) > -1) {
+            span.classList.remove('blue-ball');
+            span.classList.add('exclude-blue');
         }
-        span.onclick = ()=>{
-            const val = Number(span.dataset.val)
-            const idx = selectedExcludeBlue.indexOf(val)
-            if(idx > -1){
-                selectedExcludeBlue.splice(idx,1)
-            }else{
-                selectedExcludeBlue.push(val)
+
+        span.onclick = function () {
+            const val = Number(span.dataset.val);
+            const idx = selectedExcludeBlue.indexOf(val);
+
+            if (idx > -1) {
+                selectedExcludeBlue.splice(idx, 1);
+            } else {
+                selectedExcludeBlue.push(val);
             }
-            renderExcludeBoard()
-        }
-        blueWrap.appendChild(span)
+
+            renderExcludeBoard();
+        };
+
+        blueWrap.appendChild(span);
     }
 }
 
-// 普通/反向排除模式生成
-function runGenerate(){
-    const mode = document.querySelector('input[name="mode"]:checked').value
-    let excludeR = []
-    let excludeB = []
+function runGenerate() {
+    const mode = document.querySelector('input[name="mode"]:checked').value;
+    let excludeR = [];
+    let excludeB = [];
+
     document.getElementById('extraInfo').innerHTML = '';
-    if(mode === 'exclude'){
-        excludeR = selectedExcludeRed
-        excludeB = selectedExcludeBlue
+
+    if (mode === 'exclude') {
+        excludeR = selectedExcludeRed;
+        excludeB = selectedExcludeBlue;
     }
-    try{
-        const [red, blue] = generateDoubleBall(6,1,excludeR,excludeB)
-        renderResult(red,blue);
-    }catch(e){
-        alert(e.message)
+
+    try {
+        const result = generateDoubleBall(6, 1, excludeR, excludeB);
+        const red = result[0];
+        const blue = result[1];
+
+        renderResult(red, blue);
+    } catch (e) {
+        alert(e.message);
     }
 }
 
-// 27红15蓝 取剩余注
-function runRemainMode(){
+function runRemainMode() {
     document.querySelector('input[value="remain"]').checked = true;
     switchMode();
-    // 随机选出27红、15蓝（被抽走的号码）
-    const [pickedRed, pickedBlue] = generateDoubleBall(27,15);
 
-    // 计算剩余红球：1~33排除pickedRed
+    const picked = generateDoubleBall(27, 15);
+    const pickedRed = picked[0];
+    const pickedBlue = picked[1];
+
     let remainRed = [];
-    for(let i=1;i<=33;i++){
-        if(!pickedRed.includes(i)) remainRed.push(i);
+    for (let i = 1; i <= 33; i++) {
+        if (pickedRed.indexOf(i) === -1) {
+            remainRed.push(i);
+        }
     }
-    remainRed.sort((a,b)=>a-b);
+    remainRed.sort(function (a, b) {
+        return a - b;
+    });
 
-    // 剩余蓝球：1~16排除pickedBlue
     let remainBlue = [];
-    for(let i=1;i<=16;i++){
-        if(!pickedBlue.includes(i)) remainBlue.push(i);
+    for (let i = 1; i <= 16; i++) {
+        if (pickedBlue.indexOf(i) === -1) {
+            remainBlue.push(i);
+        }
     }
-    renderResult(remainRed,remainBlue);
-    document.getElementById('extraInfo').innerHTML = `抽走27红：${pickedRed.join(" ")} <br>抽走15蓝：${pickedBlue.join(" ")}`;
+
+    renderResult(remainRed, remainBlue);
+
+    document.getElementById('extraInfo').innerHTML =
+        '<div>抽走27红：' + pickedRed.join(" ") + '</div>' +
+        '<div>抽走15蓝：' + pickedBlue.join(" ") + '</div>';
 }
 
-// 渲染球结果
-function renderResult(red,blue){
-    let html = ''
-    red.forEach(n=>{
-        html += `<span class="ball-item red-ball">${n}</span>`
-    })
-    blue.forEach(n=>{
-        html += `<span class="ball-item blue-ball">${n}</span>`
-    })
-    document.getElementById('resultShow').innerHTML = html
+function renderResult(red, blue) {
+    let html = '';
+
+    for (let i = 0; i < red.length; i++) {
+        html += '<span class="ball-item red-ball">' + red[i] + '</span>';
+    }
+
+    for (let i = 0; i < blue.length; i++) {
+        html += '<span class="ball-item blue-ball">' + blue[i] + '</span>';
+    }
+
+    document.getElementById('resultShow').innerHTML = html;
 }
 
-// 重置全部
-function resetAll(){
-    selectedExcludeRed = []
-    selectedExcludeBlue = []
-    document.getElementById('resultShow').innerHTML = ''
-    document.getElementById('extraInfo').innerHTML = ''
-    renderExcludeBoard()
+function resetAll() {
+    selectedExcludeRed = [];
+    selectedExcludeBlue = [];
+    document.getElementById('resultShow').innerHTML = '';
+    document.getElementById('extraInfo').innerHTML = '';
+    renderExcludeBoard();
 }
 
-// 初始化
-renderExcludeBoard()
+renderExcludeBoard();
 </script>
 </body>
 </html>

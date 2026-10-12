@@ -36,6 +36,7 @@
 
         /* mode-box 左对齐 */
         .mode-box {
+            margin-top:32px;
             margin-bottom: 36px;
             font-size: 20px;
             line-height: 2.2;
@@ -151,6 +152,11 @@
             color: #fff;
         }
 
+        .btn-copy {
+            background-color: #23a055;
+            color: #fff;
+        }
+
         .tip {
             color: #666;
             font-size: 17px;
@@ -218,6 +224,21 @@
     <div class="card">
         <h2>双色球选号器｜三合一</h2>
 
+        <div class="result-line">
+            选号结果：
+            <span id="resultShow"></span>
+        </div>
+
+        <div class="extra-info" id="extraInfo"></div>
+
+        <div>
+            <button class="btn-primary" onclick="runGenerate()">生成号码</button>
+            <button class="btn-special" onclick="runRemainMode()">遗漏法生成号码</button>
+            <button class="btn-copy" onclick="copyNumber()">复制号码</button>
+            <button class="btn-reset" onclick="resetAll()">重置</button>
+        </div>
+
+        <!-- mode-box移到按钮下方 -->
         <div class="mode-box">
             <label>
                 <input type="radio" name="mode" value="random" checked onchange="switchMode()">
@@ -244,23 +265,13 @@
             </div>
         </div>
 
-        <div class="result-line">
-            选号结果：
-            <span id="resultShow"></span>
-        </div>
-
-        <div class="extra-info" id="extraInfo"></div>
-
-        <div>
-            <button class="btn-primary" onclick="runGenerate()">生成号码</button>
-            <button class="btn-special" onclick="runRemainMode()">遗漏法生成</button>
-            <button class="btn-reset" onclick="resetAll()">重置</button>
-        </div>
-
-        <p class="tip">提示：彩票开奖完全随机，本工具仅号码模拟，无法提高中奖概率，理性购彩。</p>
+        <p class="tip">提示：彩票开奖完全独立随机，遗漏法仅模拟演示，无法提高中奖概率，理性购彩。</p>
     </div>
 
 <script>
+let lastRed = [];
+let lastBlue = [];
+
 function generateDoubleBall(redBallNum = 6, blueBallNum = 1, excludeRed = [], excludeBlue = []) {
     let availableRed = [];
     for (let i = 1; i <= 33; i++) {
@@ -297,6 +308,9 @@ function generateDoubleBall(redBallNum = 6, blueBallNum = 1, excludeRed = [], ex
     }
 
     redBalls.sort(function (a, b) {
+        return a - b;
+    });
+    blueBalls.sort(function (a, b) {
         return a - b;
     });
 
@@ -407,35 +421,31 @@ function runRemainMode() {
     document.querySelector('input[value="remain"]').checked = true;
     switchMode();
 
-    const picked = generateDoubleBall(27, 15);
-    const pickedRed = picked[0];
-    const pickedBlue = picked[1];
+    const [pickRed, pickBlue] = generateDoubleBall(27, 15);
 
     let remainRed = [];
-    for (let i = 1; i <= 33; i++) {
-        if (pickedRed.indexOf(i) === -1) {
-            remainRed.push(i);
-        }
+    for(let i=1;i<=33;i++){
+        if(!pickRed.includes(i)) remainRed.push(i);
     }
-    remainRed.sort(function (a, b) {
-        return a - b;
-    });
-
     let remainBlue = [];
-    for (let i = 1; i <= 16; i++) {
-        if (pickedBlue.indexOf(i) === -1) {
-            remainBlue.push(i);
-        }
+    for(let i=1;i<=16;i++){
+        if(!pickBlue.includes(i)) remainBlue.push(i);
     }
+
+    remainRed.sort((a,b)=>a-b);
+    remainBlue.sort((a,b)=>a-b);
 
     renderResult(remainRed, remainBlue);
 
+    // 同时展示抽取27红、抽取15蓝，不显示剩余遗漏号码
     document.getElementById('extraInfo').innerHTML =
-        '<div>抽走27红：' + pickedRed.join(" ") + '</div>' +
-        '<div>抽走15蓝：' + pickedBlue.join(" ") + '</div>';
+        `<div>抽取27红：${pickRed.join(" ")}</div>
+         <div>抽取15蓝：${pickBlue.join(" ")}</div>`;
 }
 
 function renderResult(red, blue) {
+    lastRed = red;
+    lastBlue = blue;
     let html = '';
 
     for (let i = 0; i < red.length; i++) {
@@ -449,9 +459,25 @@ function renderResult(red, blue) {
     document.getElementById('resultShow').innerHTML = html;
 }
 
+async function copyNumber(){
+    if(lastRed.length ===0 || lastBlue.length ===0){
+        alert("暂无号码可复制，请先生成！");
+        return;
+    }
+    const text = `红球：${lastRed.join(" ")} 蓝球：${lastBlue.join("")}`;
+    try{
+        await navigator.clipboard.writeText(text);
+        alert("号码已复制！");
+    }catch(err){
+        alert("复制失败，请手动复制："+text);
+    }
+}
+
 function resetAll() {
     selectedExcludeRed = [];
     selectedExcludeBlue = [];
+    lastRed = [];
+    lastBlue = [];
     document.getElementById('resultShow').innerHTML = '';
     document.getElementById('extraInfo').innerHTML = '';
     renderExcludeBoard();
